@@ -7,9 +7,9 @@ from pydantic import validator
 from datetime import datetime
 
 class Beer(SQLModel, table= True):
-    id: Optional[int] = Field(primary_key=True, default=None)
+    id: Optional[int] = Field(primary_key=True, default=None, index=True)
     name: str 
-    style: str
+    styler: str
     flavor: int
     image: int
     cost: int

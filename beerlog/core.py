@@ -6,7 +6,7 @@ from beerlog.database import get_session
 
 def add_beer_to_database(
     name: str,
-    styler: str,
+    style: str,
     flavor: int,
     image: int,
     cost: int
@@ -14,7 +14,7 @@ def add_beer_to_database(
     with get_session() as session:
         beer = Beer(
             name=name,
-            styler=styler,
+            style=style,
             flavor=flavor,
             image=image,
             cost=cost
@@ -23,7 +23,9 @@ def add_beer_to_database(
         session.commit()
     return True
 
-def get_beer_from_database() -> List[Beer]:
+def get_beers_from_database(styler: Optional[str] = None) -> List[Beer]:
     with get_session() as session:
         sql = select(Beer)
-        return session.exect(sql)
+        if styler:
+            sql = sql.where(Beer.styler == styler)
+        return list(session.exec(sql))
